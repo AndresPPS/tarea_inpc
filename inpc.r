@@ -5,15 +5,31 @@ setwd("D:/Progra/Clase5")
 library(shiny)
 library(dplyr)
 library(lubridate)
+library(stringr)
+library(zoo)
 
-inpc <- read.csv("inpc.csv", header = T, sep = ",", skip = 4)
+
+inpc <- read.csv("C:/Users/grzlz/Code/icarus/revisionclase4/tarea_inpc/inpc.csv", header = T, sep = ",", skip = 4)
 #inpc <- inpc %>% select(2)
 inpc <- na.omit(inpc)
 colnames(inpc) <- c("fecha", "indice")
-inpc$fecha <- as.Date.character(inpc$fecha, "%Y/%m/%d")
+inpc$fecha <- ym(inpc$fecha, "%Y/%m/%d")
+
+inpc$fecha <- str_replace(inpc$fecha, "/", "-")
+
+inpc$fecha <- as.yearmon(inpc$fecha)
 
 inpc_ts <- as.ts(inpc)
-inpc.arima <- arima(inpc, order = c(2,2,2))
+
+inpc_df <- as.data.frame(inpc_ts)
+
+
+
+indice <- inpc_df$indice
+fechas <- inpc_df$fecha
+
+
+inpc.arima <- arima(inpc_ts, order = c(2,2,2))
 plot(inpc.arima)
 
 ui <- fluidPage(
