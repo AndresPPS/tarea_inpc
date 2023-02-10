@@ -1,6 +1,5 @@
 rm(list = ls())
 
-install.packages("shiny")
 setwd("D:/Progra/Clase5")
 
 library(shiny)
@@ -8,10 +7,12 @@ library(dplyr)
 library(lubridate)
 
 inpc <- read.csv("inpc.csv", header = T, sep = ",", skip = 4)
-inpc <- inpc %>% select(2)
-colnames(inpc) <- "indice"
+#inpc <- inpc %>% select(2)
+inpc <- na.omit(inpc)
+colnames(inpc) <- c("fecha", "indice")
+inpc$fecha <- as.Date.character(inpc$fecha, "%Y/%m/%d")
 
-inpc <- as.ts(inpc, start=c(1970, 1), frequency = 12)
+inpc_ts <- as.ts(inpc)
 inpc.arima <- arima(inpc, order = c(2,2,2))
 plot(inpc.arima)
 
