@@ -7,24 +7,19 @@ library(dplyr)
 library(lubridate)
 library(stringr)
 library(zoo)
+library(ggplot2)
 
-
-inpc <- read.csv("C:/Users/grzlz/Code/icarus/tarea_inpc/inpc.csv", header = T, sep = ",", skip = 4)
-#inpc <- inpc %>% select(2)
+inpc <- read.csv("inpc.csv", header = T, sep = ",", skip = 4)
 inpc <- na.omit(inpc)
-fechas <- inpc %>% select(1)
-indice <- inpc %>% select(2)
+
+inpc2 <- inpc %>% select(2)
+colnames(inpc2) <- "indice"
 
 
-inpc <- inpc %>% select(2)
-colnames(inpc) <- "indice"
-
-inpc_ts <- as.ts(inpc, start = c(1970, 1), frequency = 12)
+inpc_ts <- as.ts(inpc2, start = c(1970, 1), frequency = 12)
 
 inpc.arima <- arima(inpc_ts, order = c(2,2,2))
-# Correr modelo para predecir n meses 
-inpc.forecast <- predict(inpc.arima, 5)
-
+inpc.forecast <- predict(inpc.arima, 6)
 prediction <- inpc.forecast$pred
 # Recuperar valor para mes n
 prediction[2]
@@ -95,11 +90,31 @@ View(data)
 
 
 
+funcion_andres <- function(){
+  fechas <- as.data.frame(c("2023/02","2023/03", "2023/04", "2023/05", "2023/06", "2023/07"))
+  colnames(fechas) = "fecha"
+  
+  prediccion <- as.data.frame(prediction)
+  
+  tabla_final <- merge(fechas,prediccion, by.x=0, by.y = 0)
+  tabla_final$Row.names <- NULL
+  
+  tabla_final$x <- round(tabla_final$x, digits = 2)
+  
+  ggplot(tabla_final, aes(fecha, x, group = 1, label = x))+
+    geom_point()+
+    geom_line()+
+    geom_text(size = 3, aes(vjust = 2, hjust = 0))
+}
+
 ui <- fluidPage(
   sliderInput(inputId = "meses", label = "meses (m?ximo 6)", 
               min = 1, max = 6, value =6),
   
 )
+
+
+
 
 server <- function(input, output){
   output$meses <- renderText(
