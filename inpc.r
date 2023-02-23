@@ -1,9 +1,5 @@
 rm(list = ls())
 
-
-setwd("D:/Progra/Clase5") #Paco
-setwd("C:/Users/Andy/Desktop/tarea_inpc")#Portos 
-
 library(shiny)
 library(dplyr)
 library(lubridate)
@@ -11,28 +7,25 @@ library(stringr)
 library(zoo)
 library(ggplot2)
 
-inpc <- read.csv("inpc.csv", header = T, sep = ",", skip = 4)
-inpc <- na.omit(inpc)
+# setwd("D:/Progra/Clase5") #Paco
+# setwd("C:/Users/Andy/Desktop/tarea_inpc")#Portos 
+setwd("C:/Users/grzlz/Code/icarus/tarea_inpc")
 
-inpc2 <- inpc %>% select(2)
-colnames(inpc2) <- "indice"
 
+inpc <- read.csv("inpc.csv", header = T, sep = ",", skip = 4) %>% 
+  na.omit()
+
+inpc2 <- inpc %>% 
+  select("indice" = names(inpc)[2])
 
 inpc_ts <- ts(inpc2, start = c(1970, 1), frequency = 12)
 
-inpc_df <- as.data.frame(inpc_ts)
-
-
-
-#indice <- inpc_df$indice
-#fechas <- inpc_df$fecha
 
 
 inpc.arima <- arima(inpc_ts, order = c(2,2,2))
 inpc.forecast <- predict(inpc.arima, 6)
 prediction <- inpc.forecast$pred
-plot.ts(inpc.forecast)
-plot(inpc.arima)
+
 
 funcion_andres <- function(meses){
   if(meses >= 6){
