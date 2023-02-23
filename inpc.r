@@ -39,56 +39,10 @@ funcion_predecir <- function(meses) {
     i <- i + 1
   }
   
-  return(dinamic_df)
+  dinamic_df %>% 
+    ggplot(aes(x = fecha, y = round(indice, 2))) + geom_point() + geom_line()
 }
 
-funcion_predecir(5)
-
-predicciones_vector <- c()
-
-prd <- function() {
-  return("Funciona por favor")
-}
-
-
-
-for(prediccion in predicciones) {
-  predicciones_vector <- append(predicciones_vector, prd())
-}
-
-pd
-
-
-inpc_forecast <- predict(inpc_arima, 6)
-prediction <- inpc_forecast$pred
-
-
-
-
-funcion_andres <- function(meses){
-  if(meses >= 6){
-    fechas <- as.data.frame(c("2023/02","2023/03", "2023/04", "2023/05", "2023/06", "2023/07"))
-  colnames(fechas) = "fecha"
-  
-  prediccion <- as.data.frame(prediction)
-  
-  tabla_final <- merge(fechas,prediccion, by.x=0, by.y = 0)
-  tabla_final$Row.names <- NULL
-  
-  tabla_final$x <- round(tabla_final$x, digits = 2)
-  
-  ggplot(tabla_final, aes(fecha, x, group = 1, label = x))+
-    geom_point()+
-    geom_line()+
-    geom_text(size = 3, aes(vjust = 2, hjust = 0))
-  }
-  else{
-    ggplot(mtcars, aes(cyl, hp, group = 1, label = x))+
-      geom_point()+
-      geom_line()+
-      geom_text(size = 3, aes(vjust = 2, hjust = 0))
-  }
-  }
 
 
 ui <- fluidPage(
@@ -99,10 +53,8 @@ ui <- fluidPage(
 )
 
 
-
-
 server <- function(input, output){
-    output$forecast_plot <- renderPlot({funcion_andres(input$meses)}
+    output$forecast_plot <- renderPlot({funcion_predecir(input$meses)}
   )
 }
 
