@@ -1,6 +1,6 @@
 rm(list = ls())
 
-setwd("D:/Progra/Clase5")
+setwd("D:/Progra/Clase5") #Paco
 
 library(shiny)
 library(dplyr)
@@ -16,20 +16,20 @@ inpc2 <- inpc %>% select(2)
 colnames(inpc2) <- "indice"
 
 
-inpc_ts <- as.ts(inpc2, start = c(1970, 1), frequency = 12)
+inpc_ts <- ts(inpc2, start = c(1970, 1), frequency = 12)
 
 inpc_df <- as.data.frame(inpc_ts)
 
 
 
-indice <- inpc_df$indice
-fechas <- inpc_df$fecha
+#indice <- inpc_df$indice
+#fechas <- inpc_df$fecha
 
 
 inpc.arima <- arima(inpc_ts, order = c(2,2,2))
 inpc.forecast <- predict(inpc.arima, 6)
 prediction <- inpc.forecast$pred
-plot(inpc.forecast)
+plot.ts(inpc.forecast)
 plot(inpc.arima)
 
 funcion_andres <- function(){
@@ -52,6 +52,7 @@ funcion_andres <- function(){
 ui <- fluidPage(
   sliderInput(inputId = "meses", label = "meses (m?ximo 6)", 
               min = 1, max = 6, value =6),
+  plotOutput(outputId="forecast_plot")
   
 )
 
@@ -66,7 +67,9 @@ server <- function(input, output){
   output$plot_ejemplo <- renderPlot(
     plot(d$fecha,d$inpc)
   )
-  
+  output$forecast_plot <- renderPlot({funcion_andres()}
+    
+  )
 }
 
 shinyApp(ui, server)
