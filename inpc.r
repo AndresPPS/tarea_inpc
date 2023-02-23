@@ -13,18 +13,20 @@ setwd("C:/Users/grzlz/Code/icarus/tarea_inpc")
 
 
 inpc <- read.csv("inpc.csv", header = T, sep = ",", skip = 4) %>% 
-  na.omit()
+  na.omit() %>% 
+  rename("fecha" = names(inpc)[1], "indice" = names(inpc)[2])
 
-inpc2 <- inpc %>% 
-  select("indice" = names(inpc)[2])
+inpc_ts <- ts(inpc, start = c(1970, 1), frequency = 12)
 
-inpc_ts <- ts(inpc2, start = c(1970, 1), frequency = 12)
+inpc_arima <- arima(inpc_ts, order = c(2,2,2))
+
+inpc_last_year <- inpc %>% 
+  filter()
+
+inpc_forecast <- predict(inpc_arima, 6)
+prediction <- inpc_forecast$pred
 
 
-
-inpc.arima <- arima(inpc_ts, order = c(2,2,2))
-inpc.forecast <- predict(inpc.arima, 6)
-prediction <- inpc.forecast$pred
 
 
 funcion_andres <- function(meses){
