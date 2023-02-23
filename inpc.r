@@ -1,6 +1,8 @@
 rm(list = ls())
 
+
 setwd("D:/Progra/Clase5") #Paco
+setwd("C:/Users/Andy/Desktop/tarea_inpc")#Portos 
 
 library(shiny)
 library(dplyr)
@@ -32,8 +34,9 @@ prediction <- inpc.forecast$pred
 plot.ts(inpc.forecast)
 plot(inpc.arima)
 
-funcion_andres <- function(){
-  fechas <- as.data.frame(c("2023/02","2023/03", "2023/04", "2023/05", "2023/06", "2023/07"))
+funcion_andres <- function(meses){
+  if(meses >= 6){
+    fechas <- as.data.frame(c("2023/02","2023/03", "2023/04", "2023/05", "2023/06", "2023/07"))
   colnames(fechas) = "fecha"
   
   prediccion <- as.data.frame(prediction)
@@ -47,11 +50,19 @@ funcion_andres <- function(){
     geom_point()+
     geom_line()+
     geom_text(size = 3, aes(vjust = 2, hjust = 0))
-}
+  }
+  else{
+    ggplot(mtcars, aes(cyl, hp, group = 1, label = x))+
+      geom_point()+
+      geom_line()+
+      geom_text(size = 3, aes(vjust = 2, hjust = 0))
+  }
+  }
+
 
 ui <- fluidPage(
-  sliderInput(inputId = "meses", label = "meses (m?ximo 6)", 
-              min = 1, max = 6, value =6),
+  sliderInput(inputId = "meses", label = "meses (maximo 12)", 
+              min = 1, max = 12, value =6),
   plotOutput(outputId="forecast_plot")
   
 )
@@ -60,15 +71,7 @@ ui <- fluidPage(
 
 
 server <- function(input, output){
-  output$meses <- renderText(
-    input$meses
-  )
-  
-  output$plot_ejemplo <- renderPlot(
-    plot(d$fecha,d$inpc)
-  )
-  output$forecast_plot <- renderPlot({funcion_andres()}
-    
+    output$forecast_plot <- renderPlot({funcion_andres(input$meses)}
   )
 }
 
