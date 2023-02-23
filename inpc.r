@@ -3,8 +3,6 @@ rm(list = ls())
 library(shiny)
 library(dplyr)
 library(lubridate)
-library(stringr)
-library(zoo)
 library(ggplot2)
 
 # setwd("D:/Progra/Clase5") #Paco
@@ -13,15 +11,53 @@ setwd("C:/Users/grzlz/Code/icarus/tarea_inpc")
 
 
 inpc <- read.csv("inpc.csv", header = T, sep = ",", skip = 4) %>% 
-  na.omit() %>% 
-  rename("fecha" = names(inpc)[1], "indice" = names(inpc)[2])
+  na.omit() 
+inpc <- inpc %>% 
+  select("fecha" = names(inpc)[1], "indice" = names(inpc)[2])
 
-inpc_ts <- ts(inpc, start = c(1970, 1), frequency = 12)
+inpc_ts <- ts(inpc %>% select(indice), start = c(1970, 1), frequency = 12)
 
 inpc_arima <- arima(inpc_ts, order = c(2,2,2))
 
 inpc_last_year <- inpc %>% 
-  filter()
+  filter(fecha >= "2022/01") %>% 
+  mutate(fecha = ym(fecha))
+
+funcion_predecir <- function(meses) {
+
+  inpc_forecast <- predict(inpc_arima, meses)
+  predicciones <- inpc_forecast$pred
+  dinamic_df <- inpc_last_year
+  for(prediccion in predicciones) {
+    
+    # Aqui mismo hacer tratamiento a las fechas 
+    i <- 1
+    mth <- max(dinamic_df$fecha) %m+% months(1)
+    dat <- data.frame(fecha = mth, indice = prediccion)
+    dinamic_df <- rbind(dinamic_df, dat)
+
+    i <- i + 1
+  }
+  
+  return(dinamic_df)
+}
+
+funcion_predecir(5)
+
+predicciones_vector <- c()
+
+prd <- function() {
+  return("Funciona por favor")
+}
+
+
+
+for(prediccion in predicciones) {
+  predicciones_vector <- append(predicciones_vector, prd())
+}
+
+pd
+
 
 inpc_forecast <- predict(inpc_arima, 6)
 prediction <- inpc_forecast$pred
