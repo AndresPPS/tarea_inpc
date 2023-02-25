@@ -29,14 +29,13 @@ inpc_df <- as.data.frame(inpc_ts)
 
 
 inpc.arima <- arima(inpc_ts, order = c(2,2,2))
-inpc.forecast <- predict(inpc.arima, 6)
+inpc.forecast <- predict(inpc.arima, 12)
 prediction <- inpc.forecast$pred
 plot.ts(inpc.forecast)
 plot(inpc.arima)
 
 funcion_andres <- function(meses){
-  if(meses >= 6){
-    fechas <- as.data.frame(c("2023/02","2023/03", "2023/04", "2023/05", "2023/06", "2023/07"))
+    fechas <- as.data.frame(c("2023/02","2023/03", "2023/04", "2023/05", "2023/06", "2023/07","2023/08","2023/09","2023/10","2023/11","2023/12","2024/01"))
   colnames(fechas) = "fecha"
   
   prediccion <- as.data.frame(prediction)
@@ -50,15 +49,25 @@ funcion_andres <- function(meses){
     geom_point()+
     geom_line()+
     geom_text(size = 3, aes(vjust = 2, hjust = 0))
-  }
-  else{
-    ggplot(mtcars, aes(cyl, hp, group = 1, label = x))+
-      geom_point()+
-      geom_line()+
-      geom_text(size = 3, aes(vjust = 2, hjust = 0))
-  }
+  
+
   }
 
+ funcion_for <- function(meses){
+   predicciones <- prediccion$x
+   
+   acumulador <- 1 
+   
+   df_dinamico <- data.frame(fecha = c(), inpc = c())
+   
+   for (element in predicciones) {
+     df <- data.frame(fecha = 202301 + acumulador, inpc = element)
+     acumulador <-  acumulador + 1
+     df_dinamico <- rbind(df_dinamico, df)
+   }
+ }
+   
+ 
 
 ui <- fluidPage(
   sliderInput(inputId = "meses", label = "meses (maximo 12)", 
@@ -71,7 +80,7 @@ ui <- fluidPage(
 
 
 server <- function(input, output){
-    output$forecast_plot <- renderPlot({funcion_andres(input$meses)}
+    output$forecast_plot <- renderPlot({funcion_andres()}
   )
 }
 
