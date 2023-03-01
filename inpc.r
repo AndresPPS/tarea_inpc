@@ -28,19 +28,17 @@ funcion_predecir <- function(meses) {
   predicciones <- inpc_forecast$pred
   dinamic_df <- inpc_last_year
   for (prediccion in predicciones) {
-    i <- 1
     mth <- max(dinamic_df$fecha) %m+% months(1)
     dat <- data.frame(fecha = mth, indice = prediccion)
     dinamic_df <- rbind(dinamic_df, dat)
-    
-    i <- i + 1
+
   }
   
   dinamic_df %>%
     ggplot(aes(x = fecha, y = round(indice, 2))) + geom_point() + geom_line()
 }
 
-
+339   
 ui <- fluidPage(titlePanel("INPC"),
                 sidebarLayout(sidebarPanel(
                   sliderInput(inputId = "meses", label = "meses (maximo 12)", min = 1, max = 12,value = 6
