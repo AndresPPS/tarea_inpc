@@ -38,7 +38,6 @@ funcion_predecir <- function(meses) {
     ggplot(aes(x = fecha, y = round(indice, 2))) + geom_point() + geom_line()
 }
 
-339   
 ui <- fluidPage(titlePanel("INPC"),
                 sidebarLayout(sidebarPanel(
                   sliderInput(inputId = "meses", label = "meses (maximo 12)", min = 1, max = 12,value = 6
