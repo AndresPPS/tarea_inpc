@@ -1,8 +1,6 @@
 rm(list = ls())
 
 
-setwd("D:/Progra/Clase5") #Paco
-setwd("C:/Users/Andy/Desktop/tarea_inpc")#Portos 
 
 library(shiny)
 library(dplyr)
@@ -31,43 +29,46 @@ inpc_df <- as.data.frame(inpc_ts)
 inpc.arima <- arima(inpc_ts, order = c(2,2,2))
 inpc.forecast <- predict(inpc.arima, 12)
 prediction <- inpc.forecast$pred
-plot.ts(inpc.forecast)
-plot(inpc.arima)
 
-funcion_andres <- function(meses){
-    fechas <- as.data.frame(c("2023/02","2023/03", "2023/04", "2023/05", "2023/06", "2023/07","2023/08","2023/09","2023/10","2023/11","2023/12","2024/01"))
-  colnames(fechas) = "fecha"
+
+
+funcion_meses <- function(meses) {
+  df_meses <- data.frame(row.names = "fecha")
+  acumulador <- 1
+  for (m in 1:meses) {
+    df_auxiliar <- data.frame(row.names = "fecha")
+    df_auxiliar$fecha <- 202301 + acumulador
+    df_meses <- rbind(df_meses, df_auxiliar)
+    acumulador <- acumulador + 1
+  }
+  return(df_meses)
+}
+
+funcion_predicciones <- function(meses){
+  prediccion <- predict(inpc.arima, meses)
+  prediccion <- as.data.frame(prediccion$pred)
   
-  prediccion <- as.data.frame(prediction)
+  return(prediccion)
   
-  tabla_final <- merge(fechas,prediccion, by.x=0, by.y = 0)
-  tabla_final$Row.names <- NULL
-  
-  tabla_final$x <- round(tabla_final$x, digits = 2)
-  
-  ggplot(tabla_final, aes(fecha, x, group = 1, label = x))+
+}
+
+funcion_final <- function(meses){
+  df_meses <- funcion_meses(meses)
+  df_prediccion <- funcion_predicciones(meses)
+  df_final <- cbind(df_meses, df_prediccion)
+  return(df_final)
+}
+
+funcion_plot <- function(meses){
+    df_final <- funcion_final(meses)
+    df_final$x <- round(df_final$x, 2) 
+    ggplot(df_final, aes(fecha, x, group = 1, label = x))+
     geom_point()+
     geom_line()+
     geom_text(size = 3, aes(vjust = 2, hjust = 0))
+}
   
 
-  }
-
- funcion_for <- function(meses){
-   predicciones <- prediccion$x
-   
-   acumulador <- 1 
-   
-   df_dinamico <- data.frame(fecha = c(), inpc = c())
-   
-   for (element in predicciones) {
-     df <- data.frame(fecha = 202301 + acumulador, inpc = element)
-     acumulador <-  acumulador + 1
-     df_dinamico <- rbind(df_dinamico, df)
-   }
- }
-   
- 
 
 ui <- fluidPage(
   sliderInput(inputId = "meses", label = "meses (maximo 12)", 
@@ -80,8 +81,9 @@ ui <- fluidPage(
 
 
 server <- function(input, output){
-    output$forecast_plot <- renderPlot({funcion_andres()}
-  )
+    output$forecast_plot <- renderPlot({
+      funcion_plot(input$meses)
+      })
 }
 
 shinyApp(ui, server)

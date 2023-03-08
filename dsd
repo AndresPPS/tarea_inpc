@@ -1,0 +1,85 @@
+[33mcommit 6a67a3f784f22e0e6ef35d9b8b2d155424173238[m[33m ([m[1;36mHEAD -> [m[1;32mportos[m[33m, [m[1;31morigin/portos[m[33m)[m
+Author: AndrésP <andukial@gmail.com>
+Date:   Sat Feb 25 17:00:55 2023 -0600
+
+    funcion for
+
+[33mcommit 2f45356dd82a86dc0eb563ef9e223496e54503eb[m
+Author: AndrésP <andukial@gmail.com>
+Date:   Wed Feb 22 21:34:41 2023 -0600
+
+    Empieza a ser dinámica la función
+
+[33mcommit a445e24596d58c764ad1bb948609bf0f02610778[m[33m ([m[1;31morigin/paco[m[33m, [m[1;32mpaco[m[33m)[m
+Author: fjbarragans <franciscojbarragans@gmail.com>
+Date:   Wed Feb 22 21:14:10 2023 -0600
+
+    ahi te va portos
+
+[33mcommit 3515057c6e80608d46debd3bfcc948d9abb9157e[m
+Merge: 2ae814a f7c45f8
+Author: fjbarragans <franciscojbarragans@gmail.com>
+Date:   Wed Feb 22 20:56:12 2023 -0600
+
+    Merge branch 'portos' into paco
+
+[33mcommit f7c45f8bedca0fb80c92f3b71b33c22e401bd1ba[m
+Author: AndrésP <andukial@gmail.com>
+Date:   Fri Feb 17 14:49:32 2023 -0600
+
+    añadí la función)
+
+[33mcommit a930b78c8eaee3dc3a0a34edcd73a3db1b4b1cc1[m
+Author: AndrésP <andukial@gmail.com>
+Date:   Tue Feb 14 18:47:05 2023 -0600
+
+    cree mi branch
+
+[33mcommit 2ae814ae68eeadb4796595229bd3715ede142318[m[33m ([m[1;31morigin/otro_branch[m[33m)[m
+Author: fjbarragans <franciscojbarragans@gmail.com>
+Date:   Tue Feb 14 18:35:45 2023 -0600
+
+    nuevo branch
+
+[33mcommit 8afa1910fedac39459312563d15ecb7c1905e439[m[33m ([m[1;31morigin/master[m[33m, [m[1;31morigin/HEAD[m[33m, [m[1;32mmaster[m[33m)[m
+Merge: db2fa3d 94f2b28
+Author: fjbarragans <franciscojbarragans@gmail.com>
+Date:   Fri Feb 10 17:02:49 2023 -0600
+
+    ahi mas o menos bien
+
+[33mcommit db2fa3d00239cdd67087867221077da02d1c0ef9[m
+Author: fjbarragans <franciscojbarragans@gmail.com>
+Date:   Fri Feb 10 16:50:57 2023 -0600
+
+    no pudimos
+
+[33mcommit 94f2b2811d74bac5b6a747971c91c867283931ba[m
+Author: grzlz <guillermo.rdzlpz@gmail.com>
+Date:   Fri Feb 10 17:48:58 2023 -0500
+
+    utilizar zoo y yearmon
+
+[33mcommit f1facf39e3f1fcf9399616755bbd8b9f14053935[m
+Author: fjbarragans <franciscojbarragans@gmail.com>
+Date:   Fri Feb 10 16:05:32 2023 -0600
+
+    no se pudo
+
+[33mcommit 5f3b6c57dc7e5970ab007b9a8912164a59af4207[m
+Author: fjbarragans <franciscojbarragans@gmail.com>
+Date:   Fri Feb 10 00:09:04 2023 -0600
+
+    pos ahi se fue
+
+[33mcommit 23c29b7dabde52056b0ffd12fc3c22b08b5d83e6[m
+Author: AndrésP <andukial@gmail.com>
+Date:   Thu Feb 9 23:18:37 2023 -0600
+
+    añadí el slider a 6 meses
+
+[33mcommit 7a41c9d92322189244886e5d00afa7bf9505e45c[m
+Author: AndrésP <andukial@gmail.com>
+Date:   Thu Feb 9 23:05:58 2023 -0600
+
+    cree el archivo de r
