@@ -68,9 +68,8 @@ funcion_plot <- function(meses){
     geom_text(size = 3, aes(vjust = 2, hjust = 0))
 }
 
-funcion_fecha <- function(meses){
-  
-}  
+inpc_chido <- inpc %>%
+  filter(Periodos >= "2022/02")
 
 
 ui <- fluidPage(
