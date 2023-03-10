@@ -34,12 +34,12 @@ prediction <- inpc.forecast$pred
 
 funcion_meses <- function(meses) {
   df_meses <- data.frame(row.names = "fecha")
-  acumulador <- 1
+  acumulador <- months(1)
   for (m in 1:meses) {
     df_auxiliar <- data.frame(row.names = "fecha")
-    df_auxiliar$fecha <- 202301 + acumulador
+    df_auxiliar$fecha <- ymd(20230101) + acumulador
     df_meses <- rbind(df_meses, df_auxiliar)
-    acumulador <- acumulador + 1
+    acumulador <- acumulador + months(1)
   }
   return(df_meses)
 }
@@ -67,7 +67,10 @@ funcion_plot <- function(meses){
     geom_line()+
     geom_text(size = 3, aes(vjust = 2, hjust = 0))
 }
+
+funcion_fecha <- function(meses){
   
+}  
 
 
 ui <- fluidPage(
